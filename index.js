@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+const { token } = require('./config.json');
 const client = new Discord.Client();
 
 // The id of the channel where the bot will operate. Change to your needs.
@@ -47,12 +47,20 @@ client.on('message', message => {
 
             }
         }
+        else if (content.toUpperCase() == "LKT") {
+            console.log(`${indent} ${content} IS a valid code.`);
+            console.log(`${indent} Success.\n`);
+
+            const role_name = `gruppe${content.toUpperCase()}`;
+            const role = message.guild.roles.cache.find(role => role.name === role_name);
+            message.member.roles.add(role); // Assign role to user.
+        }
         else {
 
-            console.log(`${indent} "${content}" is NOT a valid number.`);
+            console.log(`${indent} "${content}" is NOT a valid number / code.`);
             console.log(`${indent} Failure.\n`);
 
-            message.reply(`please enter a number between 1 and ${groups}.`)
+            message.reply(`please enter a number between 1 and ${groups}, or a valid code.`)
             .then(msg => {
                 msg.delete({timeout: 10000}) // Delete reply after 10 seconds.
             })
